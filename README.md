@@ -1,37 +1,76 @@
-Клонировать репозиторий и перейти в него в командной строке:
+# Сервис YaCut
 
-```
-git clone 
-```
+## Описание проекта
 
-```
-cd yacut
-```
+**Проект YaCut — это сервис укорачивания ссылок. Его назначение — ассоциировать длинную пользовательскую ссылку с короткой, которую предлагает сам пользователь или предоставляет сервис.**
 
-Cоздать и активировать виртуальное окружение:
+## Установка и настройка
 
-```
-python3 -m venv venv
-```
-
-* Если у вас Linux/macOS
-
-    ```
-    source venv/bin/activate
+1. **Клонирование репозитория:**
+    
+    ```bash
+    git clone git@github.com:closecodex/yacut.git
+    cd yacut
     ```
 
-* Если у вас windows
+2. **Создание и активация виртуального окружения:**
 
+    ```bash
+    python -m venv venv
+    source venv\Scripts\activate
     ```
-    source venv/scripts/activate
+
+3. **Обновление менеджера пакетов и установка зависимостей:**
+   
+   ```bash
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+4. **Выполнение миграций:**
+    
+   ```bash
+   flask db init
+   flask db migrate -m "комментарий"
+   flask db upgrade
+   ```
+
+5. **Запуск приложения:**
+
+    ```bash
+    flask run
     ```
 
-Установить зависимости из файла requirements.txt:
+## Примеры запросов
 
-```
-python3 -m pip install --upgrade pip
-```
+- POST /api/id/
 
-```
-pip install -r requirements.txt
-```
+    * Запрос: 
+        ```json
+        {
+        "url": "https://www.example.com",
+        "custom_id": "mycustomid" * (необязательное поле)
+        }
+        ```
+    * Ответ:
+        ```json
+        {
+        "url": "https://www.example.com",
+        "short_link": "http://127.0.0.1:5000/mycustomid"
+        }
+        ```
+
+- GET /api/id/<short_id>/
+
+    * Ответ:
+        ```json
+        {
+        "url": "https://www.example.com"
+        }
+        ```
+
+## Дополнительная информация
+
+1. **Автор: Мария Осмоловская (closecodex@github.com)**
+
+2. **Технологии: Python, Flask 2.0, SQLAlchemy, Alembic (Flask-Migrate), PostgreSQL/SQLite**

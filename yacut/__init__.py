@@ -15,17 +15,14 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from .api_views import init_app as api_init_app
+    from .api_views import api_bp
     from .error_handlers import init_app as error_handlers_init_app
-    from .models import URLMap
-    from .views import init_app as views_init_app
+    from .views import views_bp
 
-    api_init_app(app)
+    app.register_blueprint(api_bp)
+    app.register_blueprint(views_bp)
+
     error_handlers_init_app(app)
-    views_init_app(app)
-
-    with app.app_context():
-        db.create_all()
 
     return app
 
